@@ -5,7 +5,7 @@ declare let PIXI: any;
 export class Tube {
     private x: number;
     private y: number;
-    private innerDistance = 80;
+    private innerDistance = 120;
     private tubeWidth = 20;
     private sprite = new PIXI.Graphics();
 

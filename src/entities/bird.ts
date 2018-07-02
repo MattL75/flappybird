@@ -29,15 +29,15 @@ export class Bird {
         this.reset();
         document.addEventListener('keydown', e => {
             if (e.keyCode === 32) {
-                this.bounceUp(-GRAVITY / 3);
+                this.bounceUp(-GRAVITY / 1.7);
             }
         });
-        stage.on('pointerdown', () => this.bounceUp(-GRAVITY / 3));
+        stage.on('pointerdown', () => this.bounceUp(-GRAVITY / 1.7));
         setInterval(this.updateTexture, 200);
     }
 
     public updateSprite(): void {
-        this.speedY += GRAVITY / 70;
+        this.speedY += GRAVITY / 50;
         this.sprite.y += this.speedY;
         this.sprite.rotation = Math.atan(this.speedY / GAME_SPEED_X);
 
@@ -68,13 +68,4 @@ export class Bird {
         this.isDead = false;
     }
 
-    // private updateTexture(): void {
-    //     if (this.isDead) {
-    //         return;
-    //     }
-    //     this.sprite.texture = PIXI.loader.resources[BIRD_FRAMES[this.textureCounter++]].texture;
-    //     if (this.textureCounter === BIRD_FRAMES.length) {
-    //         this.textureCounter = 0;
-    //     }
-    // }
 }

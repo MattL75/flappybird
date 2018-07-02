@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {BIRD_FRAMES, canvasWidthHeight, TUBE_LIST} from '../entities/constants';
+import {BIRD_FRAMES, canvasWidthHeight, TUBE_LIST, total} from '../entities/constants';
 import {Tube} from '../entities/tube';
 import {Bird} from '../entities/bird';
 declare let PIXI: any;
@@ -40,7 +40,9 @@ export class AppComponent implements OnInit {
             if (gameStarted) {
                 bird.updateSprite();
                 if (!gameFailed) {
-                    tubeList.forEach(d => d.update());
+                    tubeList.forEach(d => {
+                        d.update();
+                    });
                 }
             }
             renderer.render(stage);

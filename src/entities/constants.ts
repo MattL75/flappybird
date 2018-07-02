@@ -1,5 +1,5 @@
 export const GRAVITY = 9.8;
-export const GAME_SPEED_X = 30;
+export const GAME_SPEED_X = 70;
 export const canvasWidthHeight = Math.min(Math.min(window.innerHeight, window.innerWidth), 512);
 export const TUBE_LIST = [
     canvasWidthHeight + 50,

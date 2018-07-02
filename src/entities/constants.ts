@@ -7,9 +7,9 @@ export const TUBE_LIST = [
     canvasWidthHeight + 480,
 ];
 export const BIRD_FRAMES = [
-    '../assets/bird/frame-1.png',
-    '../assets/bird/frame-2.png',
-    '../assets/bird/frame-3.png',
-    '../assets/bird/frame-4.png',
+    '/src/assets/bird/frame-1.png',
+    '/src/assets/bird/frame-2.png',
+    '/src/assets/bird/frame-3.png',
+    '/src/assets/bird/frame-4.png',
 ];
 

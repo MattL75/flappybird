@@ -1,4 +1,7 @@
 import {Component, OnInit} from '@angular/core';
+import {BIRD_FRAMES, canvasWidthHeight, TUBE_LIST} from '../entities/constants';
+import {Tube} from '../entities/tube';
+import {Bird} from '../entities/bird';
 declare let PIXI: any;
 
 @Component({
@@ -7,27 +10,52 @@ declare let PIXI: any;
     styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-    app = new PIXI.Application();
-
     ngOnInit() {
-        document.body.appendChild(this.app.view);
-        this.pixiLoad();
-    }
+        const renderer = PIXI.autoDetectRenderer(canvasWidthHeight, canvasWidthHeight, { backgroundColor: 0xc1c2c4 });
+        document.body.appendChild(renderer.view);
+        const stage = new PIXI.Container();
+        stage.interactive = true;
+        stage.hitArea = new PIXI.Rectangle(0, 0, 1000, 1000);
+        renderer.render(stage);
 
-    pixiLoad(): void {
-        PIXI.loader.add('bunny', '../assets/bunny.png').load((loader, resources) => {
-            const bunny = new PIXI.Sprite(resources.bunny.texture);
-            bunny.x = this.app.renderer.width / 2;
-            bunny.y = this.app.renderer.height / 2;
+        const tubeList = TUBE_LIST.map(d => new Tube(stage, d));
+        PIXI.loader
+            .add(BIRD_FRAMES)
+            .load(setup);
 
-            bunny.anchor.x = 0.5;
-            bunny.anchor.y = 0.5;
-
-            this.app.stage.addChild(bunny);
-
-            this.app.ticker.add(() => {
-                bunny.rotation += 0.1;
+        let bird;
+        const button = document.querySelector('#start');
+        function setup() {
+            bird = new Bird(stage, tubeList, () => {
+                // Called when bird hit tube/ground/upper bound
+                gameFailed = true;
+                button.classList.remove('hide');
             });
+            requestAnimationFrame(draw);
+        }
+
+        let gameStarted = false;
+        let gameFailed = false;
+        function draw() {
+            if (gameStarted) {
+                bird.updateSprite();
+                if (!gameFailed) {
+                    tubeList.forEach(d => d.update());
+                }
+            }
+            renderer.render(stage);
+            requestAnimationFrame(draw);
+        }
+
+        button.addEventListener('click', () => {
+            gameStarted = true;
+            button.innerHTML = 'Retry';
+            if (gameFailed) {
+                gameFailed = false;
+                tubeList.forEach((d, i) => d.reset(TUBE_LIST[i]));
+                bird.reset();
+            }
+            button.classList.add('hide');
         });
     }
 }
